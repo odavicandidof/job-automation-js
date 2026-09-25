@@ -2,7 +2,7 @@
   "type": "module",
   "name": "job-automation-js",
   "version": "1.0.0",
-  "description": "Automação de busca de vagas no Jooble",
+  "description": "Automação para busca de vagas remotas no Remotive",
   "main": "index.js",
   "scripts": {
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
@@ -11,7 +11,7 @@
   "keywords": [
     "jobs",
     "automation",
-    "jooble"
+    "remotive"
   ],
   "author": "Davi",
   "license": "ISC",
