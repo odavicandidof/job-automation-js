@@ -10,6 +10,8 @@ npm install
 
 ## Como rodar os testes
 
+Os testes usam APIs reais (Remotive e uma planilha Google de teste). Antes, configure a credencial do Google e o `.env` seguindo [docs/ferramentas.md](docs/ferramentas.md).
+
 ```bash
 npm test
 ```
@@ -35,8 +37,8 @@ Quando a aplicação roda, ela busca vagas no Remotive e as transforma em um for
 ## Estrutura
 
 - `src/adapters/remotiveAdapter.js` — adapta dados da API Remotive para formato local
-- `src/repository/jobRepository.js` — persiste vagas em `jobs.json`
-- `src/utils/jobFilter.js` — filtra vagas por skill
+- `src/repository/sheetsRepository.js` — persiste vagas no Google Sheets (dedup por link, status por vaga)
+- `src/filters/jobFilter.js` — filtra vagas por skill
 - `src/learningTests/` — testes extremos de cada módulo
 
 ## Contrato da API Remotive
@@ -46,10 +48,18 @@ Quando a aplicação roda, ela busca vagas no Remotive e as transforma em um for
 - Rate limit: máx 2 req/min, recomendado 4x/dia
 - **Atribuição obrigatória:** mencionar Remotive como fonte
 
+## Documentação
+
+- [Arquitetura](docs/arquitetura.svg)
+- [Spec do front-end](docs/spec-front-end.md)
+- [Ferramentas, contas e autenticação](docs/ferramentas.md)
+
 ## Roadmap
 
 - [x] Adapter para Remotive API
-- [x] Persistência em JSON (jobRepository)
+- [x] Persistência no Google Sheets (sheetsRepository)
 - [x] Filtro de vagas por skill
+- [ ] API Express (leitura pública, status admin, sync via cron)
+- [ ] Interface web (React + Vite)
+- [ ] Deploy na Vercel
 - [ ] Export para CSV
-- [ ] Interface web
