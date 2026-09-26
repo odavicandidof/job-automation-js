@@ -13,7 +13,15 @@ npm install
 Os testes usam APIs reais (Remotive e uma planilha Google de teste). Antes, configure a credencial do Google e o `.env` seguindo [docs/ferramentas.md](docs/ferramentas.md).
 
 ```bash
-npm test
+npm test          # tudo, inclusive APIs reais
+npm run test:api  # só a API, sem rede
+```
+
+## Como rodar a API
+
+```bash
+npm run hash-senha  # gera ADMIN_PASSWORD_HASH pro .env
+npm run api         # http://localhost:3000/api/vagas
 ```
 
 ## Exemplo de saída
@@ -36,6 +44,11 @@ Quando a aplicação roda, ela busca vagas no Remotive e as transforma em um for
 
 ## Estrutura
 
+- `api/index.js` — entrada da Vercel, monta a API com as dependências reais
+- `src/app.js` — rotas Express (leitura pública, login admin, status, sync via cron)
+- `src/auth/` — sessão por cookie assinado, hash scrypt da senha e limite de tentativas de login
+- `src/services/sincronizarVagas.js` — busca na Remotive e grava só vagas novas
+- `src/tests/` — testes da API com repositório em memória (401, 400, 429, vazamento de erro)
 - `src/adapters/remotiveAdapter.js` — adapta dados da API Remotive para formato local
 - `src/repository/sheetsRepository.js` — persiste vagas no Google Sheets (dedup por link, status por vaga)
 - `src/filters/jobFilter.js` — filtra vagas por skill
@@ -59,7 +72,7 @@ Quando a aplicação roda, ela busca vagas no Remotive e as transforma em um for
 - [x] Adapter para Remotive API
 - [x] Persistência no Google Sheets (sheetsRepository)
 - [x] Filtro de vagas por skill
-- [ ] API Express (leitura pública, status admin, sync via cron)
+- [x] API Express (leitura pública, status admin, sync via cron)
 - [ ] Interface web (React + Vite)
 - [ ] Deploy na Vercel
 - [ ] Export para CSV

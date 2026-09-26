@@ -55,7 +55,8 @@ O código só usa a `google-auth-library`, que acha a credencial sozinha (Applic
   - `SHEETS_ID`
   - `CRON_SECRET` = string aleatória (`openssl rand -hex 32`)
   - `SESSION_SECRET` = outra string aleatória (`openssl rand -hex 32`), que assina o cookie de admin
-  - `ADMIN_PASSWORD_HASH` = hash da senha de admin (o comando pra gerar entra junto com o código do login; a senha em texto puro nunca vai pra lugar nenhum)
+  - `ADMIN_PASSWORD_HASH` = hash scrypt da senha de admin, gerado com `npm run hash-senha` (a senha é digitada no terminal e só o hash é impresso; a senha em texto puro nunca vai pra lugar nenhum)
+  - `SYNC_TERMO` (opcional) = termo de busca enviado à Remotive no sync diário. Vazio busca todas as vagas
   - Variáveis do Workload Identity Federation: definidas no PR de deploy
 - [ ] Depois do primeiro deploy: Settings → Cron Jobs deve listar `/api/cron/sync`
 - O plano Hobby é grátis e o cron roda 1x/dia, que é o necessário.
@@ -74,5 +75,8 @@ SHEETS_ID_TEST=...
 CRON_SECRET=...
 SESSION_SECRET=...
 ADMIN_PASSWORD_HASH=...
+SYNC_TERMO=
 ```
 Sem `< >` em volta dos valores. O Jest carrega o `.env` sozinho (`jest.setup.cjs`); fora dos testes, rodar com `node --env-file=.env ...`. Nada de `dotenv`.
+
+API local: `npm run api` sobe em `http://localhost:3000`. O cookie de admin é `Secure`, mas os navegadores aceitam em `localhost` mesmo sem HTTPS.
